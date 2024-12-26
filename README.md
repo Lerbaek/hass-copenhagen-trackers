@@ -5,6 +5,8 @@
 
 Copenhagen Trackers custom integration for Home Assistant allows you to seamlessly integrate your Copenhagen Trackers devices with Home Assistant, providing real-time monitoring.
 
+# Note: This integration is a work in progress and is not yet functional.
+
 ## Features
 
 - **Sensor Integration**: Monitor various sensor data such as location, geolocation, battery percentage, signal strength, and profile name.
