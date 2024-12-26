@@ -1,1 +1,5 @@
-
+{
+    "name": "Copenhagen Trackers",
+    "render_readme": true,
+    "homeassistant": "2024.12.0"
+}
