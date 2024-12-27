@@ -1,4 +1,3 @@
-
 """Binary sensor platform for Copenhagen Trackers integration."""
 from homeassistant.components.binary_sensor import (
     BinarySensorEntity,
@@ -27,7 +26,8 @@ class CanUpdateBinarySensor(CopenhagenTrackersEntity, BinarySensorEntity):
 
     _attr_name = "can_update"
     _attr_entity_category = EntityCategory.DIAGNOSTIC
-    _attr_icon = "mdi:update"
+    _attr_icon = "mdi:cloud-download"
+    _attr_device_class = BinarySensorDeviceClass.UPDATE
     
     @property
     def unique_id(self):
@@ -42,7 +42,7 @@ class CanUpdateBinarySensor(CopenhagenTrackersEntity, BinarySensorEntity):
     @property
     def is_on(self):
         """Return true if the binary sensor is on."""
-        return self.device_data.get("can_update", False)
+        return bool(self.device_data.get("can_update", False))
 
 class ShouldUpdateBinarySensor(CopenhagenTrackersEntity, BinarySensorEntity):
     """Binary sensor for device update recommendation."""
@@ -50,6 +50,7 @@ class ShouldUpdateBinarySensor(CopenhagenTrackersEntity, BinarySensorEntity):
     _attr_name = "should_update"
     _attr_entity_category = EntityCategory.DIAGNOSTIC
     _attr_icon = "mdi:update-alert"
+    _attr_device_class = BinarySensorDeviceClass.UPDATE
     
     @property
     def unique_id(self):
@@ -64,4 +65,4 @@ class ShouldUpdateBinarySensor(CopenhagenTrackersEntity, BinarySensorEntity):
     @property
     def is_on(self):
         """Return true if the binary sensor is on."""
-        return self.device_data.get("should_update", False)
+        return bool(self.device_data.get("should_update", False))
