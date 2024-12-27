@@ -14,6 +14,7 @@ from homeassistant.const import (
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import config_validation as cv
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
+from homeassistant.helpers.entity import generate_entity_id
 from homeassistant.helpers.update_coordinator import (
     CoordinatorEntity,
     DataUpdateCoordinator,
@@ -134,6 +135,14 @@ class CopenhagenTrackersEntity(CoordinatorEntity):
             "model": model,
             "sw_version": self.device_data["firmware_version"],
         }
+
+    @property
+    def entity_id(self):
+        """Return entity ID."""
+        return generate_entity_id(
+            f"{self.DOMAIN}.cphtrackers_" + "{}",
+            {self.device_data["name"]},
+            self.hass)
 
     @property
     def device_data(self):
