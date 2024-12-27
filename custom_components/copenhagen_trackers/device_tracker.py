@@ -1,6 +1,5 @@
 """Device tracker platform for Copenhagen Trackers integration."""
 from homeassistant.components.device_tracker import SourceType, TrackerEntity
-from homeassistant.components.device_tracker.const import ATTR_GPS, ATTR_GPS_ACCURACY
 from .const import DOMAIN
 from . import CopenhagenTrackersEntity
 
