@@ -1,5 +1,6 @@
 """Device tracker platform for Copenhagen Trackers integration."""
 from homeassistant.components.device_tracker import SourceType, TrackerEntity
+from homeassistant.const import Platform
 from .const import DOMAIN
 from . import CopenhagenTrackersEntity
 
@@ -18,10 +19,7 @@ class DeviceTracker(CopenhagenTrackersEntity, TrackerEntity):
 
     _attr_icon = "mdi:map-marker"
     _attr_has_entity_name = True
-    
-    def __init__(self, coordinator, device_id):
-        """Initialize the tracker."""
-        super().__init__(coordinator, device_id)
+    PLATFORM = Platform.DEVICE_TRACKER
     
     @property
     def unique_id(self):

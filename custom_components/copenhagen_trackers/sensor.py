@@ -16,6 +16,8 @@ import datetime
 from .const import DOMAIN, ATTR_DESCRIPTION, ATTR_UPDATED_AT
 from . import CopenhagenTrackersEntity
 
+PLATFORM = Platform.SENSOR
+
 async def async_setup_entry(hass, entry, async_add_entities):
     """Set up Copenhagen Trackers sensors based on a config entry."""
     coordinator = hass.data[DOMAIN][entry.entry_id]
@@ -37,6 +39,7 @@ class LastSeenAtSensor(CopenhagenTrackersEntity, SensorEntity):
 
     _attr_device_class = SensorDeviceClass.TIMESTAMP
     _attr_icon = "mdi:clock-outline"
+    PLATFORM = PLATFORM
     
     @property
     def unique_id(self):
@@ -64,6 +67,7 @@ class BatteryPercentageSensor(CopenhagenTrackersEntity, SensorEntity):
     _attr_state_class = SensorStateClass.MEASUREMENT
     _attr_entity_category = EntityCategory.DIAGNOSTIC
     _attr_native_precision = 0
+    PLATFORM = PLATFORM
     
     @property
     def unique_id(self):
@@ -88,6 +92,7 @@ class SignalStrengthSensor(CopenhagenTrackersEntity, SensorEntity):
     _attr_state_class = SensorStateClass.MEASUREMENT
     _attr_entity_category = EntityCategory.DIAGNOSTIC
     _attr_icon = "mdi:signal"
+    PLATFORM = PLATFORM
     
     @property
     def unique_id(self) -> str:
@@ -108,6 +113,7 @@ class ProfileNameSensor(CopenhagenTrackersEntity, SensorEntity):
     """Sensor for device profile name."""
 
     _attr_icon = "mdi:card-account-details-outline"
+    PLATFORM = PLATFORM
     
     @property
     def unique_id(self):
@@ -142,6 +148,7 @@ class ServerSyncAtSensor(CopenhagenTrackersEntity, SensorEntity):
     _attr_device_class = SensorDeviceClass.TIMESTAMP
     _attr_icon = "mdi:cloud-sync"
     _attr_entity_category = EntityCategory.DIAGNOSTIC
+    PLATFORM = PLATFORM
     
     @property
     def native_value(self):

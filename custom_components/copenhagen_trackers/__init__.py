@@ -126,6 +126,10 @@ class CopenhagenTrackersEntity(CoordinatorEntity):
         """Initialize the entity."""
         super().__init__(coordinator)
         self._device_id = device_id
+        self.entity_id = generate_entity_id(
+            f"{self.PLATFORM}.cphtrackers_" + "{}",
+            self.device_data["name"],
+            hass=coordinator.hass)
         device_type = self.device_data['device_type']
         model = DEVICE_TYPE_MAP.get(device_type, f"Unknown model ({device_type})")
         self._attr_device_info = {
@@ -135,14 +139,6 @@ class CopenhagenTrackersEntity(CoordinatorEntity):
             "model": model,
             "sw_version": self.device_data["firmware_version"],
         }
-
-    @property
-    def entity_id(self):
-        """Return entity ID."""
-        return generate_entity_id(
-            f"{self.DOMAIN}.cphtrackers_" + "{}",
-            {self.device_data["name"]},
-            self.hass)
 
     @property
     def device_data(self):

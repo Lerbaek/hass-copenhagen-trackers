@@ -4,9 +4,11 @@ from homeassistant.components.binary_sensor import (
     BinarySensorDeviceClass,
 )
 from homeassistant.helpers.entity import EntityCategory
-
+from homeassistant.const import Platform
 from .const import DOMAIN
 from . import CopenhagenTrackersEntity
+
+PLATFORM = Platform.BINARY_SENSOR
 
 async def async_setup_entry(hass, entry, async_add_entities):
     """Set up Copenhagen Trackers binary sensors based on a config entry."""
@@ -27,6 +29,7 @@ class CanUpdateBinarySensor(CopenhagenTrackersEntity, BinarySensorEntity):
     _attr_entity_category = EntityCategory.DIAGNOSTIC
     _attr_icon = "mdi:cloud-download"
     _attr_device_class = BinarySensorDeviceClass.UPDATE
+    PLATFORM = PLATFORM
     
     @property
     def unique_id(self):
@@ -49,6 +52,7 @@ class ShouldUpdateBinarySensor(CopenhagenTrackersEntity, BinarySensorEntity):
     _attr_entity_category = EntityCategory.DIAGNOSTIC
     _attr_icon = "mdi:update-alert"
     _attr_device_class = BinarySensorDeviceClass.UPDATE
+    PLATFORM = PLATFORM
     
     @property
     def unique_id(self):
