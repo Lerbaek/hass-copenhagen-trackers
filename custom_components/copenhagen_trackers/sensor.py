@@ -23,7 +23,8 @@ async def async_setup_entry(hass, entry, async_add_entities):
     entities = []
     for device in coordinator.data["data"]:
         entities.extend((
-            LastUpdatedAtSensor(coordinator, device["id"]),
+            ServerSyncAtSensor(coordinator, device["id"]),
+            LastSeenAtSensor(coordinator, device["id"]),
             BatteryPercentageSensor(coordinator, device["id"]),
             SignalStrengthSensor(coordinator, device["id"]),
             ProfileNameSensor(coordinator, device["id"]),
@@ -31,37 +32,40 @@ async def async_setup_entry(hass, entry, async_add_entities):
     
     async_add_entities(entities)
 
-class LastUpdatedAtSensor(CopenhagenTrackersEntity, SensorEntity):
-    """Sensor for device last update time."""
+class LastSeenAtSensor(CopenhagenTrackersEntity, SensorEntity):
+    """Sensor for when the device was last seen."""
 
+    _attr_name = "last_seen_at"
     _attr_device_class = SensorDeviceClass.TIMESTAMP
     _attr_icon = "mdi:clock-outline"
     
     @property
     def unique_id(self):
         """Return a unique ID."""
-        return f"cphtrackers_{self._device_id}_last_updated_at"
+        return f"cphtrackers_{self._device_id}_last_seen_at"
 
     @property
     def name(self):
         """Return the name of the sensor."""
-        return f"{self.device_data['name']} tracker last updated at"
+        return f"{self.device_data['name']} tracker last seen at"
 
     @property
     def native_value(self):
         """Return the state of the sensor."""
-        last_updated_at = self.device_data.get("updated_at")
-        if last_updated_at:
-            return datetime.datetime.fromisoformat(last_updated_at.replace("Z", "+00:00"))
+        last_seen_at = self.device_data.get("updated_at")
+        if last_seen_at:
+            return datetime.datetime.fromisoformat(last_seen_at.replace("Z", "+00:00"))
         return None
 
 class BatteryPercentageSensor(CopenhagenTrackersEntity, SensorEntity):
     """Sensor for device battery percentage."""
 
+    _attr_name = "battery_percentage"
     _attr_device_class = SensorDeviceClass.BATTERY
     _attr_native_unit_of_measurement = PERCENTAGE
     _attr_state_class = SensorStateClass.MEASUREMENT
     _attr_entity_category = EntityCategory.DIAGNOSTIC
+    _attr_native_precision = 0
     
     @property
     def unique_id(self):
@@ -81,6 +85,7 @@ class BatteryPercentageSensor(CopenhagenTrackersEntity, SensorEntity):
 class SignalStrengthSensor(CopenhagenTrackersEntity, SensorEntity):
     """Sensor for device signal strength."""
 
+    _attr_name = "signal_strength"
     _attr_device_class = SensorDeviceClass.SIGNAL_STRENGTH
     _attr_native_unit_of_measurement = None
     _attr_state_class = SensorStateClass.MEASUREMENT
@@ -105,6 +110,7 @@ class SignalStrengthSensor(CopenhagenTrackersEntity, SensorEntity):
 class ProfileNameSensor(CopenhagenTrackersEntity, SensorEntity):
     """Sensor for device profile name."""
 
+    _attr_name = "profile_name"
     _attr_icon = "mdi:card-account-details-outline"
     
     @property
@@ -133,3 +139,16 @@ class ProfileNameSensor(CopenhagenTrackersEntity, SensorEntity):
                 ATTR_UPDATED_AT: profile.get("updated_at"),
             }
         return None
+
+class ServerSyncAtSensor(CopenhagenTrackersEntity, SensorEntity):
+    """Sensor for when the data was last synchronized with the server."""
+
+    _attr_name = "server_sync_at"
+    _attr_device_class = SensorDeviceClass.TIMESTAMP
+    _attr_icon = "mdi:cloud-sync"
+    _attr_entity_category = EntityCategory.DIAGNOSTIC
+    
+    @property
+    def native_value(self):
+        """Return the state of the sensor."""
+        return self.coordinator.last_update_success_time

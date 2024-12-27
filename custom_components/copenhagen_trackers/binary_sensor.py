@@ -25,6 +25,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
 class CanUpdateBinarySensor(CopenhagenTrackersEntity, BinarySensorEntity):
     """Binary sensor for device update capability."""
 
+    _attr_name = "can_update"
     _attr_entity_category = EntityCategory.DIAGNOSTIC
     _attr_icon = "mdi:update"
     
@@ -46,6 +47,7 @@ class CanUpdateBinarySensor(CopenhagenTrackersEntity, BinarySensorEntity):
 class ShouldUpdateBinarySensor(CopenhagenTrackersEntity, BinarySensorEntity):
     """Binary sensor for device update recommendation."""
 
+    _attr_name = "should_update"
     _attr_entity_category = EntityCategory.DIAGNOSTIC
     _attr_icon = "mdi:update-alert"
     

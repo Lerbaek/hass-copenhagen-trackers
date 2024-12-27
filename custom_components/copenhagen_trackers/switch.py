@@ -12,25 +12,26 @@ async def async_setup_entry(hass, entry, async_add_entities):
     
     entities = []
     for device in coordinator.data["data"]:
-        entities.append(ForceUpdateSwitch(coordinator, device["id"]))
+        entities.append(ForceRefreshSwitch(coordinator, device["id"]))
     
     async_add_entities(entities)
 
-class ForceUpdateSwitch(CopenhagenTrackersEntity, SwitchEntity):
-    """Switch to force update of device."""
+class ForceRefreshSwitch(CopenhagenTrackersEntity, SwitchEntity):
+    """Switch to force a refresh from the servers."""
 
+    _attr_name = "force_refresh"
     _attr_entity_category = EntityCategory.CONFIG
     _attr_icon = "mdi:refresh"
     
     @property
     def unique_id(self):
         """Return a unique ID."""
-        return f"cphtrackers_{self._device_id}_force_update"
+        return f"cphtrackers_{self._device_id}_force_refresh"
 
     @property
     def name(self):
         """Return the name of the switch."""
-        return f"{self.device_data['name']} tracker force update"
+        return f"{self.device_data['name']} tracker force refresh"
 
     @property
     def is_on(self):
@@ -40,7 +41,7 @@ class ForceUpdateSwitch(CopenhagenTrackersEntity, SwitchEntity):
 
     async def async_turn_on(self, **kwargs):
         """Turn the switch on."""
-        # Trigger an immediate update
+        # Trigger a immediate refresh
         await self.coordinator.async_request_refresh()
         # The switch will automatically return to off state
 

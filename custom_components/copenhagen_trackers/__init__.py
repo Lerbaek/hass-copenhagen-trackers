@@ -142,3 +142,13 @@ class CopenhagenTrackersEntity(CoordinatorEntity):
             device for device in self.coordinator.data["data"]
             if device["id"] == self._device_id
         )
+    
+    @property
+    def entity_id(self) -> str:
+        """Return entity ID for this entity."""
+        return f"{self.platform.DOMAIN}.cphtrackers_{self.device_data['name'].lower()}_{self._attr_name}"
+
+    @property
+    def name(self) -> str:
+        """Return the name of the entity."""
+        return f"{self.device_data['name']} tracker {self._attr_name}"

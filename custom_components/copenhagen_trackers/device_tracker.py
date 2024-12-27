@@ -16,6 +16,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
 class DeviceTracker(CopenhagenTrackersEntity, TrackerEntity):
     """Copenhagen Trackers Device Tracker."""
 
+    _attr_name = "location"
     _attr_icon = "mdi:map-marker"
     _attr_has_entity_name = True
     
