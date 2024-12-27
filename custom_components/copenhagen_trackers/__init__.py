@@ -1,4 +1,3 @@
-
 """Copenhagen Trackers integration for Home Assistant."""
 from __future__ import annotations
 
@@ -28,6 +27,11 @@ from .const import (
     API_ENDPOINT,
 )
 from .api import CopenhagenTrackersAPI
+
+DEVICE_TYPE_MAP = {
+    1: "Cobblestone",
+    2: "Gemstone"
+}
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -121,11 +125,13 @@ class CopenhagenTrackersEntity(CoordinatorEntity):
         """Initialize the entity."""
         super().__init__(coordinator)
         self._device_id = device_id
+        device_type = self.device_data['device_type']
+        model = DEVICE_TYPE_MAP.get(device_type, f"Unknown model ({device_type})")
         self._attr_device_info = {
             "identifiers": {(DOMAIN, device_id)},
             "name": self.device_data["name"],
             "manufacturer": "Copenhagen Trackers",
-            "model": f"Tracker {self.device_data['device_type']}",
+            "model": model,
             "sw_version": self.device_data["firmware_version"],
         }
 
