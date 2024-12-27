@@ -118,4 +118,4 @@ class ServerSyncAtSensor(CopenhagenTrackersEntity, SensorEntity):
     @property
     def native_value(self):
         """Return the state of the sensor."""
-        return self.coordinator.last_update_success_time
+        return self.coordinator.last_sync_time

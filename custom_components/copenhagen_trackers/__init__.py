@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import logging
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from abc import abstractmethod
 import voluptuous as vol
 
@@ -114,7 +114,7 @@ class CopenhagenTrackersDataUpdateCoordinator(DataUpdateCoordinator):
         """Update data via library."""
         try:
             data = await self.api.async_get_devices()
-            self._last_sync_time = datetime.datetime.now(datetime.timezone.utc)
+            self._last_sync_time = datetime.now(timezone.utc)
             return data
         except Exception as exception:
             raise UpdateFailed(exception) from exception
@@ -136,8 +136,8 @@ class CopenhagenTrackersEntity(CoordinatorEntity):
         super().__init__(coordinator)
         self._device_id = device_id
         self.entity_id = generate_entity_id(
-            f"{self.PLATFORM}.cphtrackers_" + "{}",
-            self.SUFFIX,
+            f"{self.PLATFORM}.cphtrackers_" + "{}_" + self.SUFFIX,
+            self.device_data["name"],
             hass=coordinator.hass)
         device_type = self.device_data['device_type']
         model = DEVICE_TYPE_MAP.get(device_type, f"Unknown model ({device_type})")
@@ -162,7 +162,7 @@ class CopenhagenTrackersEntity(CoordinatorEntity):
     @property
     def unique_id(self):
         """Return a unique ID."""
-        return self.entity_id.replace(f"{self.PLATFORM}.", "")
+        return f"cphtrackers_{self._device_id}_{self.SUFFIX}"
 
     @property
     def name(self):
@@ -176,8 +176,3 @@ class CopenhagenTrackersEntity(CoordinatorEntity):
             device for device in self.coordinator.data["data"]
             if device["id"] == self._device_id
         )
-
-    @property
-    def name(self) -> str:
-        """Return the name of the entity."""
-        return f"{self.device_data['name']} tracker {self._attr_name}"
