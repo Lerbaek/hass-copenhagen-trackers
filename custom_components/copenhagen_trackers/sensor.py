@@ -23,7 +23,6 @@ async def async_setup_entry(hass, entry, async_add_entities):
     entities = []
     for device in coordinator.data["data"]:
         entities.extend((
-            LocationSensor(coordinator, device["id"]),
             GeoLocationSensor(coordinator, device["id"]),
             UpdatedAtSensor(coordinator, device["id"]),
             BatteryPercentageSensor(coordinator, device["id"]),
@@ -32,29 +31,6 @@ async def async_setup_entry(hass, entry, async_add_entities):
         ))
     
     async_add_entities(entities)
-
-class LocationSensor(CopenhagenTrackersEntity, SensorEntity):
-    """Sensor for device location."""
-
-    _attr_icon = "mdi:map-marker"
-    
-    @property
-    def unique_id(self):
-        """Return a unique ID."""
-        return f"{self._device_id}_location"
-
-    @property
-    def name(self):
-        """Return the name of the sensor."""
-        return f"{self.device_data['name']} location"
-
-    @property
-    def native_value(self):
-        """Return the state of the sensor."""
-        location = self.device_data.get("location", {})
-        if road := location.get("road"):
-            return f"{road}, {location.get('city', '')}, {location.get('country', '')}"
-        return None
 
 class GeoLocationSensor(CopenhagenTrackersEntity, SensorEntity):
     """Sensor for device geolocation."""
