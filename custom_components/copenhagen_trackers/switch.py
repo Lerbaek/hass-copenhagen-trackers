@@ -25,12 +25,12 @@ class ForceUpdateSwitch(CopenhagenTrackersEntity, SwitchEntity):
     @property
     def unique_id(self):
         """Return a unique ID."""
-        return f"{self._device_id}_force_update"
+        return f"cphtrackers_{self._device_id}_force_update"
 
     @property
     def name(self):
         """Return the name of the switch."""
-        return f"{self.device_data['name']} force update"
+        return f"{self.device_data['name']} tracker force update"
 
     @property
     def is_on(self):

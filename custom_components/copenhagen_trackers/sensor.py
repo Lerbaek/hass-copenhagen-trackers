@@ -12,6 +12,7 @@ from homeassistant.const import (
     SIGNAL_STRENGTH_DECIBELS,
 )
 from homeassistant.helpers.entity import EntityCategory
+import datetime
 
 from .const import DOMAIN, ATTR_DESCRIPTION, ATTR_UPDATED_AT
 from . import CopenhagenTrackersEntity
@@ -23,8 +24,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
     entities = []
     for device in coordinator.data["data"]:
         entities.extend((
-            GeoLocationSensor(coordinator, device["id"]),
-            UpdatedAtSensor(coordinator, device["id"]),
+            LastUpdatedAtSensor(coordinator, device["id"]),
             BatteryPercentageSensor(coordinator, device["id"]),
             SignalStrengthSensor(coordinator, device["id"]),
             ProfileNameSensor(coordinator, device["id"]),
@@ -32,30 +32,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
     
     async_add_entities(entities)
 
-class GeoLocationSensor(CopenhagenTrackersEntity, SensorEntity):
-    """Sensor for device geolocation."""
-
-    _attr_icon = "mdi:crosshairs-gps"
-    
-    @property
-    def unique_id(self):
-        """Return a unique ID."""
-        return f"{self._device_id}_geolocation"
-
-    @property
-    def name(self):
-        """Return the name of the sensor."""
-        return f"{self.device_data['name']} geolocation"
-
-    @property
-    def native_value(self):
-        """Return the state of the sensor."""
-        location = self.device_data.get("location", {}).get("details", {})
-        if lat := location.get("lat"):
-            return f"{lat},{location.get('lon', '')}"
-        return None
-
-class UpdatedAtSensor(CopenhagenTrackersEntity, SensorEntity):
+class LastUpdatedAtSensor(CopenhagenTrackersEntity, SensorEntity):
     """Sensor for device last update time."""
 
     _attr_device_class = SensorDeviceClass.TIMESTAMP
@@ -64,17 +41,20 @@ class UpdatedAtSensor(CopenhagenTrackersEntity, SensorEntity):
     @property
     def unique_id(self):
         """Return a unique ID."""
-        return f"{self._device_id}_updated_at"
+        return f"cphtrackers_{self._device_id}_last_updated_at"
 
     @property
     def name(self):
         """Return the name of the sensor."""
-        return f"{self.device_data['name']} updated at"
+        return f"{self.device_data['name']} tracker last updated at"
 
     @property
     def native_value(self):
         """Return the state of the sensor."""
-        return self.device_data.get("updated_at")
+        last_updated_at = self.device_data.get("updated_at")
+        if last_updated_at:
+            return datetime.datetime.fromisoformat(last_updated_at.replace("Z", "+00:00"))
+        return None
 
 class BatteryPercentageSensor(CopenhagenTrackersEntity, SensorEntity):
     """Sensor for device battery percentage."""
@@ -87,12 +67,12 @@ class BatteryPercentageSensor(CopenhagenTrackersEntity, SensorEntity):
     @property
     def unique_id(self):
         """Return a unique ID."""
-        return f"{self._device_id}_battery_percentage"
+        return f"cphtrackers_{self._device_id}_battery_percentage"
 
     @property
     def name(self):
         """Return the name of the sensor."""
-        return f"{self.device_data['name']} battery percentage"
+        return f"{self.device_data['name']} tracker battery percentage"
 
     @property
     def native_value(self):
@@ -111,12 +91,12 @@ class SignalStrengthSensor(CopenhagenTrackersEntity, SensorEntity):
     @property
     def unique_id(self):
         """Return a unique ID."""
-        return f"{self._device_id}_signal_strength"
+        return f"cphtrackers_{self._device_id}_signal_strength"
 
     @property
     def name(self):
         """Return the name of the sensor."""
-        return f"{self.device_data['name']} signal strength"
+        return f"{self.device_data['name']} tracker signal strength"
 
     @property
     def native_value(self):
@@ -131,12 +111,12 @@ class ProfileNameSensor(CopenhagenTrackersEntity, SensorEntity):
     @property
     def unique_id(self):
         """Return a unique ID."""
-        return f"{self._device_id}_profile_name"
+        return f"cphtrackers_{self._device_id}_profile_name"
 
     @property
     def name(self):
         """Return the name of the sensor."""
-        return f"{self.device_data['name']} profile name"
+        return f"{self.device_data['name']} tracker profile name"
 
     @property
     def native_value(self):

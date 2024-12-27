@@ -18,12 +18,20 @@ class DeviceTracker(CopenhagenTrackersEntity, TrackerEntity):
 
     _attr_icon = "mdi:map-marker"
     _attr_has_entity_name = True
-
+    
     def __init__(self, coordinator, device_id):
         """Initialize the tracker."""
         super().__init__(coordinator, device_id)
-        self._attr_unique_id = f"{device_id}_location"
-        self._attr_name = "Location"
+
+    @property
+    def unique_id(self):
+        """Return a unique ID."""
+        return f"cphtrackers_{self._device_id}_location"
+
+    @property
+    def name(self):
+        """Return the name of the sensor."""
+        return f"{self.device_data['name']} tracker location"
 
     @property
     def source_type(self):

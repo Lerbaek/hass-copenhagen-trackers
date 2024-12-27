@@ -31,12 +31,12 @@ class CanUpdateBinarySensor(CopenhagenTrackersEntity, BinarySensorEntity):
     @property
     def unique_id(self):
         """Return a unique ID."""
-        return f"{self._device_id}_can_update"
+        return f"cphtrackers_{self._device_id}_can_update"
 
     @property
     def name(self):
         """Return the name of the sensor."""
-        return f"{self.device_data['name']} can update"
+        return f"{self.device_data['name']} tracker can update"
 
     @property
     def is_on(self):
@@ -52,12 +52,12 @@ class ShouldUpdateBinarySensor(CopenhagenTrackersEntity, BinarySensorEntity):
     @property
     def unique_id(self):
         """Return a unique ID."""
-        return f"{self._device_id}_should_update"
+        return f"cphtrackers_{self._device_id}_should_update"
 
     @property
     def name(self):
         """Return the name of the sensor."""
-        return f"{self.device_data['name']} should update"
+        return f"{self.device_data['name']} tracker should update"
 
     @property
     def is_on(self):
