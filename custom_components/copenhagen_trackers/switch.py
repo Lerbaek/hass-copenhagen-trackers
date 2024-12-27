@@ -1,6 +1,7 @@
 
 """Switch platform for Copenhagen Trackers integration."""
 from homeassistant.components.switch import SwitchEntity
+from homeassistant.const import Platform
 from homeassistant.helpers.entity import EntityCategory
 
 from .const import DOMAIN
@@ -19,9 +20,13 @@ async def async_setup_entry(hass, entry, async_add_entities):
 class ForceRefreshSwitch(CopenhagenTrackersEntity, SwitchEntity):
     """Switch to force a refresh from the servers."""
 
-    _attr_name = "force_refresh"
     _attr_entity_category = EntityCategory.CONFIG
     _attr_icon = "mdi:refresh"
+        
+    @property 
+    def entity_id(self) -> str:
+        """Return entity ID."""
+        return f"{Platform.SWITCH}.cphtrackers_{self._device_id}_force_refresh"
     
     @property
     def unique_id(self):

@@ -1,5 +1,6 @@
 """Device tracker platform for Copenhagen Trackers integration."""
 from homeassistant.components.device_tracker import SourceType, TrackerEntity
+from homeassistant.const import Platform
 from .const import DOMAIN
 from . import CopenhagenTrackersEntity
 
@@ -16,14 +17,18 @@ async def async_setup_entry(hass, entry, async_add_entities):
 class DeviceTracker(CopenhagenTrackersEntity, TrackerEntity):
     """Copenhagen Trackers Device Tracker."""
 
-    _attr_name = "location"
     _attr_icon = "mdi:map-marker"
     _attr_has_entity_name = True
     
     def __init__(self, coordinator, device_id):
         """Initialize the tracker."""
         super().__init__(coordinator, device_id)
-
+        
+    @property 
+    def entity_id(self) -> str:
+        """Return entity ID."""
+        return f"{Platform.DEVICE_TRACKER}.cphtrackers_{self._device_id}_location"
+    
     @property
     def unique_id(self):
         """Return a unique ID."""

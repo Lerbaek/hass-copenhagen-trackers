@@ -8,7 +8,7 @@ from homeassistant.components.sensor import (
 )
 from homeassistant.const import (
     PERCENTAGE,
-    SIGNAL_STRENGTH_DECIBELS,
+    Platform
 )
 from homeassistant.helpers.entity import EntityCategory
 import datetime
@@ -35,9 +35,13 @@ async def async_setup_entry(hass, entry, async_add_entities):
 class LastSeenAtSensor(CopenhagenTrackersEntity, SensorEntity):
     """Sensor for when the device was last seen."""
 
-    _attr_name = "last_seen_at"
     _attr_device_class = SensorDeviceClass.TIMESTAMP
     _attr_icon = "mdi:clock-outline"
+        
+    @property 
+    def entity_id(self) -> str:
+        """Return entity ID."""
+        return f"{Platform.SENSOR}.cphtrackers_{self._device_id}_last_seen_at"
     
     @property
     def unique_id(self):
@@ -60,12 +64,16 @@ class LastSeenAtSensor(CopenhagenTrackersEntity, SensorEntity):
 class BatteryPercentageSensor(CopenhagenTrackersEntity, SensorEntity):
     """Sensor for device battery percentage."""
 
-    _attr_name = "battery_percentage"
     _attr_device_class = SensorDeviceClass.BATTERY
     _attr_native_unit_of_measurement = PERCENTAGE
     _attr_state_class = SensorStateClass.MEASUREMENT
     _attr_entity_category = EntityCategory.DIAGNOSTIC
     _attr_native_precision = 0
+        
+    @property 
+    def entity_id(self) -> str:
+        """Return entity ID."""
+        return f"{Platform.SENSOR}.cphtrackers_{self._device_id}_battery_percentage"
     
     @property
     def unique_id(self):
@@ -85,12 +93,16 @@ class BatteryPercentageSensor(CopenhagenTrackersEntity, SensorEntity):
 class SignalStrengthSensor(CopenhagenTrackersEntity, SensorEntity):
     """Sensor for device signal strength."""
 
-    _attr_name = "signal_strength"
     _attr_device_class = SensorDeviceClass.SIGNAL_STRENGTH
     _attr_native_unit_of_measurement = None
     _attr_state_class = SensorStateClass.MEASUREMENT
     _attr_entity_category = EntityCategory.DIAGNOSTIC
     _attr_icon = "mdi:signal"
+        
+    @property 
+    def entity_id(self) -> str:
+        """Return entity ID."""
+        return f"{Platform.SENSOR}.cphtrackers_{self._device_id}_signal_strength"
     
     @property
     def unique_id(self) -> str:
@@ -110,8 +122,12 @@ class SignalStrengthSensor(CopenhagenTrackersEntity, SensorEntity):
 class ProfileNameSensor(CopenhagenTrackersEntity, SensorEntity):
     """Sensor for device profile name."""
 
-    _attr_name = "profile_name"
     _attr_icon = "mdi:card-account-details-outline"
+        
+    @property 
+    def entity_id(self) -> str:
+        """Return entity ID."""
+        return f"{Platform.SENSOR}.cphtrackers_{self._device_id}_profile_name"
     
     @property
     def unique_id(self):
@@ -143,10 +159,14 @@ class ProfileNameSensor(CopenhagenTrackersEntity, SensorEntity):
 class ServerSyncAtSensor(CopenhagenTrackersEntity, SensorEntity):
     """Sensor for when the data was last synchronized with the server."""
 
-    _attr_name = "server_sync_at"
     _attr_device_class = SensorDeviceClass.TIMESTAMP
     _attr_icon = "mdi:cloud-sync"
     _attr_entity_category = EntityCategory.DIAGNOSTIC
+        
+    @property 
+    def entity_id(self) -> str:
+        """Return entity ID."""
+        return f"{Platform.SENSOR}.cphtrackers_{self._device_id}_server_sync_at"
     
     @property
     def native_value(self):

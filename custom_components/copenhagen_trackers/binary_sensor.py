@@ -3,6 +3,7 @@ from homeassistant.components.binary_sensor import (
     BinarySensorEntity,
     BinarySensorDeviceClass,
 )
+from homeassistant.const import Platform
 from homeassistant.helpers.entity import EntityCategory
 
 from .const import DOMAIN
@@ -24,10 +25,14 @@ async def async_setup_entry(hass, entry, async_add_entities):
 class CanUpdateBinarySensor(CopenhagenTrackersEntity, BinarySensorEntity):
     """Binary sensor for device update capability."""
 
-    _attr_name = "can_update"
     _attr_entity_category = EntityCategory.DIAGNOSTIC
     _attr_icon = "mdi:cloud-download"
     _attr_device_class = BinarySensorDeviceClass.UPDATE
+        
+    @property 
+    def entity_id(self) -> str:
+        """Return entity ID."""
+        return f"{Platform.BINARY_SENSOR}.cphtrackers_{self._device_id}_can_update"
     
     @property
     def unique_id(self):
@@ -47,10 +52,14 @@ class CanUpdateBinarySensor(CopenhagenTrackersEntity, BinarySensorEntity):
 class ShouldUpdateBinarySensor(CopenhagenTrackersEntity, BinarySensorEntity):
     """Binary sensor for device update recommendation."""
 
-    _attr_name = "should_update"
     _attr_entity_category = EntityCategory.DIAGNOSTIC
     _attr_icon = "mdi:update-alert"
     _attr_device_class = BinarySensorDeviceClass.UPDATE
+        
+    @property 
+    def entity_id(self) -> str:
+        """Return entity ID."""
+        return f"{Platform.BINARY_SENSOR}.cphtrackers_{self._device_id}_should_update"
     
     @property
     def unique_id(self):
