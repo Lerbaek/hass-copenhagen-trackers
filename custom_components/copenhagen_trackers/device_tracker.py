@@ -20,16 +20,7 @@ class DeviceTracker(CopenhagenTrackersEntity, TrackerEntity):
     _attr_icon = "mdi:map-marker"
     _attr_has_entity_name = True
     PLATFORM = Platform.DEVICE_TRACKER
-    
-    @property
-    def unique_id(self):
-        """Return a unique ID."""
-        return f"cphtrackers_{self._device_id}_location"
-
-    @property
-    def name(self):
-        """Return the name of the sensor."""
-        return f"{self.device_data['name']} tracker location"
+    SUFFIX = "location"
 
     @property
     def source_type(self):

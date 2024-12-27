@@ -30,16 +30,7 @@ class CanUpdateBinarySensor(CopenhagenTrackersEntity, BinarySensorEntity):
     _attr_icon = "mdi:cloud-download"
     _attr_device_class = BinarySensorDeviceClass.UPDATE
     PLATFORM = PLATFORM
-    
-    @property
-    def unique_id(self):
-        """Return a unique ID."""
-        return f"cphtrackers_{self._device_name}_can_update"
-
-    @property
-    def name(self):
-        """Return the name of the sensor."""
-        return f"{self.device_data['name']} tracker can update"
+    SUFFIX = "can_update"
 
     @property
     def is_on(self):
@@ -53,16 +44,7 @@ class ShouldUpdateBinarySensor(CopenhagenTrackersEntity, BinarySensorEntity):
     _attr_icon = "mdi:update-alert"
     _attr_device_class = BinarySensorDeviceClass.UPDATE
     PLATFORM = PLATFORM
-    
-    @property
-    def unique_id(self):
-        """Return a unique ID."""
-        return f"cphtrackers_{self._device_name}_should_update"
-
-    @property
-    def name(self):
-        """Return the name of the sensor."""
-        return f"{self.device_data['name']} tracker should update"
+    SUFFIX = "should_update"
 
     @property
     def is_on(self):

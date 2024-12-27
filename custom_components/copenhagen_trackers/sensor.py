@@ -40,16 +40,7 @@ class LastSeenAtSensor(CopenhagenTrackersEntity, SensorEntity):
     _attr_device_class = SensorDeviceClass.TIMESTAMP
     _attr_icon = "mdi:clock-outline"
     PLATFORM = PLATFORM
-    
-    @property
-    def unique_id(self):
-        """Return a unique ID."""
-        return f"cphtrackers_{self._device_id}_last_seen_at"
-
-    @property
-    def name(self):
-        """Return the name of the sensor."""
-        return f"{self.device_data['name']} tracker last seen at"
+    SUFFIX = "last_seen_at"
 
     @property
     def native_value(self):
@@ -68,16 +59,7 @@ class BatteryPercentageSensor(CopenhagenTrackersEntity, SensorEntity):
     _attr_entity_category = EntityCategory.DIAGNOSTIC
     _attr_native_precision = 0
     PLATFORM = PLATFORM
-    
-    @property
-    def unique_id(self):
-        """Return a unique ID."""
-        return f"cphtrackers_{self._device_id}_battery_percentage"
-
-    @property
-    def name(self):
-        """Return the name of the sensor."""
-        return f"{self.device_data['name']} tracker battery percentage"
+    SUFFIX = "battery_percentage"
 
     @property
     def native_value(self):
@@ -93,16 +75,7 @@ class SignalStrengthSensor(CopenhagenTrackersEntity, SensorEntity):
     _attr_entity_category = EntityCategory.DIAGNOSTIC
     _attr_icon = "mdi:signal"
     PLATFORM = PLATFORM
-    
-    @property
-    def unique_id(self) -> str:
-        """Return a unique ID."""
-        return f"cphtrackers_{self._device_id}_signal_strength"
-
-    @property
-    def name(self) -> str:
-        """Return the name of the sensor."""
-        return f"{self.device_data['name']} tracker signal strength"
+    SUFFIX = "signal_strength"
 
     @property
     def native_value(self) -> int | None:
@@ -114,16 +87,7 @@ class ProfileNameSensor(CopenhagenTrackersEntity, SensorEntity):
 
     _attr_icon = "mdi:card-account-details-outline"
     PLATFORM = PLATFORM
-    
-    @property
-    def unique_id(self):
-        """Return a unique ID."""
-        return f"cphtrackers_{self._device_id}_profile_name"
-
-    @property
-    def name(self):
-        """Return the name of the sensor."""
-        return f"{self.device_data['name']} tracker profile name"
+    SUFFIX = "profile_name"
 
     @property
     def native_value(self):
@@ -149,6 +113,7 @@ class ServerSyncAtSensor(CopenhagenTrackersEntity, SensorEntity):
     _attr_icon = "mdi:cloud-sync"
     _attr_entity_category = EntityCategory.DIAGNOSTIC
     PLATFORM = PLATFORM
+    SUFFIX = "server_sync_at"
     
     @property
     def native_value(self):

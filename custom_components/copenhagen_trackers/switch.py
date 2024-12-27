@@ -23,16 +23,7 @@ class ForceRefreshSwitch(CopenhagenTrackersEntity, SwitchEntity):
     _attr_entity_category = EntityCategory.CONFIG
     _attr_icon = "mdi:refresh"
     PLATFORM = Platform.SWITCH
-    
-    @property
-    def unique_id(self):
-        """Return a unique ID."""
-        return f"cphtrackers_{self._device_id}_force_refresh"
-
-    @property
-    def name(self):
-        """Return the name of the switch."""
-        return f"{self.device_data['name']} tracker force refresh"
+    SUFFIX = "force_refresh"
 
     @property
     def is_on(self):

@@ -2,7 +2,8 @@
 from __future__ import annotations
 
 import logging
-from datetime import timedelta
+from datetime import datetime, timedelta
+from abc import abstractmethod
 import voluptuous as vol
 
 from homeassistant.config_entries import ConfigEntry
@@ -107,14 +108,22 @@ class CopenhagenTrackersDataUpdateCoordinator(DataUpdateCoordinator):
             update_interval=update_interval,
         )
         self.api = api
+        self._last_sync_time = None
 
     async def _async_update_data(self):
         """Update data via library."""
         try:
-            return await self.api.async_get_devices()
-        except Exception as error:
-            raise UpdateFailed(f"Error communicating with API: {error}")
+            data = await self.api.async_get_devices()
+            self._last_sync_time = datetime.datetime.now(datetime.timezone.utc)
+            return data
+        except Exception as exception:
+            raise UpdateFailed(exception) from exception
 
+    @property
+    def last_sync_time(self) -> datetime.datetime:
+        """Return the timestamp of the last successful sync."""
+        return self._last_sync_time
+    
 class CopenhagenTrackersEntity(CoordinatorEntity):
     """Defines a base Copenhagen Trackers entity."""
 
@@ -128,7 +137,7 @@ class CopenhagenTrackersEntity(CoordinatorEntity):
         self._device_id = device_id
         self.entity_id = generate_entity_id(
             f"{self.PLATFORM}.cphtrackers_" + "{}",
-            self.device_data["name"],
+            self.SUFFIX,
             hass=coordinator.hass)
         device_type = self.device_data['device_type']
         model = DEVICE_TYPE_MAP.get(device_type, f"Unknown model ({device_type})")
@@ -139,6 +148,26 @@ class CopenhagenTrackersEntity(CoordinatorEntity):
             "model": model,
             "sw_version": self.device_data["firmware_version"],
         }
+        
+    @property
+    @abstractmethod
+    def SUFFIX(self):
+        """Return the suffix of the entity."""
+
+    @property
+    @abstractmethod
+    def PLATFORM(self):
+        """Return the platform of the entity."""
+    
+    @property
+    def unique_id(self):
+        """Return a unique ID."""
+        return self.entity_id.replace(f"{self.PLATFORM}.", "")
+
+    @property
+    def name(self):
+        """Return the name of the sensor."""
+        return f"{self.device_data['name']} tracker {self.SUFFIX.replace('_', ' ')}"
 
     @property
     def device_data(self):
