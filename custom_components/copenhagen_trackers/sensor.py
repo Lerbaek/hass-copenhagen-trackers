@@ -1,4 +1,3 @@
-
 """Sensor platform for Copenhagen Trackers integration."""
 from __future__ import annotations
 
@@ -83,25 +82,25 @@ class SignalStrengthSensor(CopenhagenTrackersEntity, SensorEntity):
     """Sensor for device signal strength."""
 
     _attr_device_class = SensorDeviceClass.SIGNAL_STRENGTH
-    _attr_native_unit_of_measurement = SIGNAL_STRENGTH_DECIBELS
+    _attr_native_unit_of_measurement = None
     _attr_state_class = SensorStateClass.MEASUREMENT
     _attr_entity_category = EntityCategory.DIAGNOSTIC
     _attr_icon = "mdi:signal"
     
     @property
-    def unique_id(self):
+    def unique_id(self) -> str:
         """Return a unique ID."""
         return f"cphtrackers_{self._device_id}_signal_strength"
 
     @property
-    def name(self):
+    def name(self) -> str:
         """Return the name of the sensor."""
         return f"{self.device_data['name']} tracker signal strength"
 
     @property
-    def native_value(self):
+    def native_value(self) -> int | None:
         """Return the state of the sensor."""
-        return self.device_data.get("signal")
+        return int(self.device_data.get("location", {}).get("device_info", {}).get("sig_strength", 0))
 
 class ProfileNameSensor(CopenhagenTrackersEntity, SensorEntity):
     """Sensor for device profile name."""
