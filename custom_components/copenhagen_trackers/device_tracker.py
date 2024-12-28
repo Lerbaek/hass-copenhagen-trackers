@@ -19,6 +19,7 @@ class DeviceTracker(CopenhagenTrackersEntity, TrackerEntity):
 
     _attr_icon = "mdi:map-marker"
     _attr_has_entity_name = True
+    _attr_entity_category = None
     PLATFORM = Platform.DEVICE_TRACKER
     SUFFIX = "location"
 
