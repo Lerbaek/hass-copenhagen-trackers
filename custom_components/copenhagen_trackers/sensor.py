@@ -74,6 +74,7 @@ class SignalStrengthSensor(CopenhagenTrackersEntity, SensorEntity):
     _attr_state_class = SensorStateClass.MEASUREMENT
     _attr_entity_category = EntityCategory.DIAGNOSTIC
     _attr_icon = "mdi:signal"
+    _attr_native_precision = 0
     PLATFORM = PLATFORM
     SUFFIX = "signal_strength"
 
