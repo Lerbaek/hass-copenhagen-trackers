@@ -80,7 +80,7 @@ For any issues or questions, please open an issue on the [GitHub Issue Tracker](
 [releases-shield]: https://img.shields.io/github/release/Lerbaek/hass-copenhagen-trackers.svg?style=for-the-badge
 [releases]: https://github.com/Lerbaek/hass-copenhagen-trackers/releases
 [user_profile]: https://github.com/Lerbaek
-[hassfest]: https://github.com/Lerbaek/hass-copenhagen-trackers/actions/workflows/hassfest.yaml
-[hassfest-shield]: https://github.com/Lerbaek/hass-copenhagen-trackers/actions/workflows/hassfest.yaml/badge.svg
-[hass-action-shield]: https://github.com/Lerbaek/hass-copenhagen-trackers/actions/workflows/hacs.yaml/badge.svg
-[hass-action]: https://github.com/Lerbaek/hass-copenhagen-trackers/actions/workflows/hacs.yaml
+[hassfest]: https://github.com/Lerbaek/hass-copenhagen-trackers/actions/workflows/hassfest.yml
+[hassfest-shield]: https://github.com/Lerbaek/hass-copenhagen-trackers/actions/workflows/hassfest.yml/badge.svg?style=for-the-badge
+[hass-action-shield]: https://github.com/Lerbaek/hass-copenhagen-trackers/actions/workflows/validate.yml/badge.svg?style=for-the-badge
+[hass-action]: https://github.com/Lerbaek/hass-copenhagen-trackers/actions/workflows/validate.yml
