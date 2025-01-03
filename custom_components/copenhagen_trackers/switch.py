@@ -1,19 +1,26 @@
-
 """Switch platform for Copenhagen Trackers integration."""
+
 from homeassistant.components.switch import SwitchEntity
-from homeassistant.const import Platform
 from homeassistant.helpers.entity import EntityCategory
 
-from .const import DOMAIN
-from . import CopenhagenTrackersEntity
+from .const import (
+    DOMAIN,
+    ATTR_DATA,
+    ATTR_ID
+)
+from .entity import CopenhagenTrackersEntity
+
+# Entity IDs
+SUFFIX_FORCE_REFRESH = "force_refresh"
+TRANSLATION_KEY_FORCE_REFRESH = SUFFIX_FORCE_REFRESH
 
 async def async_setup_entry(hass, entry, async_add_entities):
     """Set up Copenhagen Trackers switches based on a config entry."""
     coordinator = hass.data[DOMAIN][entry.entry_id]
     
     entities = []
-    for device in coordinator.data["data"]:
-        entities.append(ForceRefreshSwitch(coordinator, device["id"]))
+    for device in coordinator.data[ATTR_DATA]:
+        entities.append(ForceRefreshSwitch(coordinator, device[ATTR_ID]))
     
     async_add_entities(entities)
 
@@ -22,8 +29,8 @@ class ForceRefreshSwitch(CopenhagenTrackersEntity, SwitchEntity):
 
     _attr_entity_category = EntityCategory.CONFIG
     _attr_icon = "mdi:refresh"
-    PLATFORM = Platform.SWITCH
-    SUFFIX = "force_refresh"
+    _attr_translation_key = TRANSLATION_KEY_FORCE_REFRESH
+    SUFFIX = SUFFIX_FORCE_REFRESH
 
     @property
     def is_on(self):

@@ -1,10 +1,8 @@
-
 """Config flow for Copenhagen Trackers integration."""
-from __future__ import annotations
 
+from __future__ import annotations
 import logging
 from typing import Any
-
 import voluptuous as vol
 
 from homeassistant import config_entries
@@ -45,7 +43,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     data=user_input,
                 )
             except Exception:
-                _LOGGER.exception("Failed to connect to Copenhagen Trackers")
+                _LOGGER.exception(f"Failed to connect to {DOMAIN}")
                 errors["base"] = "cannot_connect"
 
         return self.async_show_form(

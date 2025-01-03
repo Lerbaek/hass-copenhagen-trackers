@@ -1,0 +1,54 @@
+{
+  "config": {
+    "flow_title": "Detekteret enhed ({host})",
+    "step": {
+      "user": {
+        "description": "Login-oplysninger til [Copenhagen Trackers](https://app.cphtrackers.com/).",
+        "data": {
+          "email": "E-mail",
+          "password": "Adgangskode"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Kunne ikke forbinde. Benyt venligst ovenstående link til at verificere login-oplysningerne."
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "can_update": {
+        "name": "Opdatering Tilgængelig"
+      },
+      "should_update": {
+        "name": "Opdatering Anbefalet"
+      }
+    },
+    "device_tracker": {
+      "location": {
+        "name": "Placering"
+      }
+    },
+    "sensor": {
+      "battery_percentage": {
+        "name": "Batteri"
+      },
+      "last_seen_at": {
+        "name": "Sidst Set"
+      },
+      "profile": {
+        "name": "Profil"
+      },
+      "server_sync_at": {
+        "name": "Server-synkronisering"
+      },
+      "signal_strength": {
+        "name": "Signalstyrke"
+      }
+    },
+    "switch": {
+      "force_refresh": {
+        "name": "Gennemtving synkronisering"
+      }
+    }
+  }
+}

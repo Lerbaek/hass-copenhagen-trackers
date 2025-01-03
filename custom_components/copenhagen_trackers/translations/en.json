@@ -1,0 +1,54 @@
+{
+  "config": {
+    "flow_title": "Discovered Device ({host})",
+    "step": {
+      "user": {
+        "description": "[Copenhagen Trackers](https://app.cphtrackers.com/) credentials.",
+        "data": {
+          "email": "E-mail",
+          "password": "Password"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Could not connect. Please verify credentials using the link above."
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "can_update": {
+        "name": "Update Available"
+      },
+      "should_update": {
+        "name": "Update Recommended"
+      }
+    },
+    "device_tracker": {
+      "location": {
+        "name": "Location"
+      }
+    },
+    "sensor": {
+      "battery_percentage": {
+        "name": "Battery"
+      },
+      "last_seen_at": {
+        "name": "Last Seen"
+      },
+      "profile": {
+        "name": "Profile"
+      },
+      "server_sync_at": {
+        "name": "Server Sync"
+      },
+      "signal_strength": {
+        "name": "Signal Strength"
+      }
+    },
+    "switch": {
+      "force_refresh": {
+        "name": "Force Refresh"
+      }
+    }
+  }
+}

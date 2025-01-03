@@ -2,11 +2,11 @@
 {
     "domain": "copenhagen_trackers",
     "name": "Copenhagen Trackers",
-    "codeowners": ["@lerbaek"],
+    "codeowners": ["@Lerbaek"],
     "config_flow": true,
-    "documentation": "https://github.com/lerbaek/copenhagen_trackers",
+    "documentation": "https://github.com/Lerbaek/hass-copenhagen-trackers",
     "iot_class": "cloud_polling",
-    "issue_tracker": "https://github.com/lerbaek/copenhagen_trackers/issues",
+    "issue_tracker": "https://github.com/Lerbaek/hass-copenhagen-trackers",
     "requirements": [],
     "version": "1.0.0"
 }

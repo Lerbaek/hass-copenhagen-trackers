@@ -1,35 +1,57 @@
 """Sensor platform for Copenhagen Trackers integration."""
+
 from __future__ import annotations
+import datetime
 
 from homeassistant.components.sensor import (
     SensorEntity,
     SensorDeviceClass,
     SensorStateClass,
 )
-from homeassistant.const import (
-    PERCENTAGE,
-    Platform
-)
+from homeassistant.const import PERCENTAGE
 from homeassistant.helpers.entity import EntityCategory
-import datetime
 
-from .const import DOMAIN, ATTR_DESCRIPTION, ATTR_UPDATED_AT
-from . import CopenhagenTrackersEntity
+from .const import (
+    DOMAIN,
+    ATTR_DATA,
+    ATTR_ID
+)
+from .entity import CopenhagenTrackersEntity
+ 
+# API response keys
+ATTR_BATTERY_PERCENTAGE = "battery_percentage"
+ATTR_DESCRIPTION = "description"
+ATTR_DEVICE_INFO = "device_info"
+ATTR_NAME = "name"
+ATTR_PROFILE = "profile"
+ATTR_SIGNAL_STRENGTH = "sig_strength"
+ATTR_UPDATED_AT = "updated_at"
 
-PLATFORM = Platform.SENSOR
+# Entity IDs
+SUFFIX_BATTERY_PERCENTAGE = ATTR_BATTERY_PERCENTAGE
+SUFFIX_LAST_SEEN_AT = "last_seen_at"
+SUFFIX_PROFILE = ATTR_PROFILE
+SUFFIX_SERVER_SYNC_AT = "server_sync_at"
+SUFFIX_SIGNAL_STRENGTH = "signal_strength"
+
+TRANSLATION_KEY_BATTERY_PERCENTAGE = ATTR_BATTERY_PERCENTAGE
+TRANSLATION_KEY_LAST_SEEN_AT = SUFFIX_LAST_SEEN_AT
+TRANSLATION_KEY_PROFILE = ATTR_PROFILE
+TRANSLATION_KEY_SERVER_SYNC_AT = SUFFIX_SERVER_SYNC_AT
+TRANSLATION_KEY_SIGNAL_STRENGTH = SUFFIX_SIGNAL_STRENGTH
 
 async def async_setup_entry(hass, entry, async_add_entities):
     """Set up Copenhagen Trackers sensors based on a config entry."""
     coordinator = hass.data[DOMAIN][entry.entry_id]
     
     entities = []
-    for device in coordinator.data["data"]:
+    for device in coordinator.data[ATTR_DATA]:
         entities.extend((
-            ServerSyncAtSensor(coordinator, device["id"]),
-            LastSeenAtSensor(coordinator, device["id"]),
-            BatteryPercentageSensor(coordinator, device["id"]),
-            SignalStrengthSensor(coordinator, device["id"]),
-            ProfileNameSensor(coordinator, device["id"]),
+            ServerSyncAtSensor(coordinator, device[ATTR_ID]),
+            LastSeenAtSensor(coordinator, device[ATTR_ID]),
+            BatteryPercentageSensor(coordinator, device[ATTR_ID]),
+            SignalStrengthSensor(coordinator, device[ATTR_ID]),
+            ProfileNameSensor(coordinator, device[ATTR_ID]),
         ))
     
     async_add_entities(entities)
@@ -38,14 +60,14 @@ class LastSeenAtSensor(CopenhagenTrackersEntity, SensorEntity):
     """Sensor for when the device was last seen."""
 
     _attr_device_class = SensorDeviceClass.TIMESTAMP
-    _attr_icon = "mdi:clock-outline"
-    PLATFORM = PLATFORM
-    SUFFIX = "last_seen_at"
+    _attr_icon = "mdi:broadcast"
+    _attr_translation_key = TRANSLATION_KEY_LAST_SEEN_AT
+    SUFFIX = SUFFIX_LAST_SEEN_AT
 
     @property
     def native_value(self):
         """Return the state of the sensor."""
-        last_seen_at = self.device_data.get("updated_at")
+        last_seen_at = self.device_data.get(ATTR_UPDATED_AT)
         if last_seen_at:
             return datetime.datetime.fromisoformat(last_seen_at.replace("Z", "+00:00"))
         return None
@@ -58,13 +80,13 @@ class BatteryPercentageSensor(CopenhagenTrackersEntity, SensorEntity):
     _attr_state_class = SensorStateClass.MEASUREMENT
     _attr_entity_category = EntityCategory.DIAGNOSTIC
     _attr_native_precision = 0
-    PLATFORM = PLATFORM
-    SUFFIX = "battery_percentage"
+    _attr_translation_key = TRANSLATION_KEY_BATTERY_PERCENTAGE
+    SUFFIX = SUFFIX_BATTERY_PERCENTAGE
 
     @property
     def native_value(self):
         """Return the state of the sensor."""
-        return self.device_data.get("battery_percentage")
+        return self.device_data.get(ATTR_BATTERY_PERCENTAGE)
 
 class SignalStrengthSensor(CopenhagenTrackersEntity, SensorEntity):
     """Sensor for device signal strength."""
@@ -75,35 +97,35 @@ class SignalStrengthSensor(CopenhagenTrackersEntity, SensorEntity):
     _attr_entity_category = EntityCategory.DIAGNOSTIC
     _attr_icon = "mdi:signal"
     _attr_native_precision = 0
-    PLATFORM = PLATFORM
-    SUFFIX = "signal_strength"
+    _attr_translation_key = TRANSLATION_KEY_SIGNAL_STRENGTH
+    SUFFIX = SUFFIX_SIGNAL_STRENGTH
 
     @property
     def native_value(self) -> int | None:
         """Return the state of the sensor."""
-        return int(self.device_data.get("location", {}).get("device_info", {}).get("sig_strength", 0))
+        return int(self.get_location().get(ATTR_DEVICE_INFO, {}).get(ATTR_SIGNAL_STRENGTH))
 
 class ProfileNameSensor(CopenhagenTrackersEntity, SensorEntity):
     """Sensor for device profile name."""
 
     _attr_icon = "mdi:card-account-details-outline"
-    PLATFORM = PLATFORM
-    SUFFIX = "profile_name"
+    _attr_translation_key = TRANSLATION_KEY_PROFILE
+    SUFFIX = SUFFIX_PROFILE
 
     @property
     def native_value(self):
         """Return the state of the sensor."""
-        if profile := self.device_data.get("profile"):
-            return profile.get("name")
+        if profile := self.device_data.get(ATTR_PROFILE):
+            return profile.get(ATTR_NAME)
         return None
 
     @property
     def extra_state_attributes(self):
         """Return the state attributes."""
-        if profile := self.device_data.get("profile"):
+        if profile := self.device_data.get(ATTR_PROFILE):
             return {
-                ATTR_DESCRIPTION: profile.get("description"),
-                ATTR_UPDATED_AT: profile.get("updated_at"),
+                ATTR_DESCRIPTION: profile.get(ATTR_DESCRIPTION),
+                ATTR_UPDATED_AT: profile.get(ATTR_UPDATED_AT),
             }
         return None
 
@@ -113,8 +135,8 @@ class ServerSyncAtSensor(CopenhagenTrackersEntity, SensorEntity):
     _attr_device_class = SensorDeviceClass.TIMESTAMP
     _attr_icon = "mdi:cloud-sync"
     _attr_entity_category = EntityCategory.DIAGNOSTIC
-    PLATFORM = PLATFORM
-    SUFFIX = "server_sync_at"
+    SUFFIX = SUFFIX_SERVER_SYNC_AT
+    _attr_translation_key = TRANSLATION_KEY_SERVER_SYNC_AT
     
     @property
     def native_value(self):
