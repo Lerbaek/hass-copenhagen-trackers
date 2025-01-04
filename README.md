@@ -1,7 +1,7 @@
 # Copenhagen Trackers Integration for Home Assistant
 
 [![HACS Action][hass-action-shield]][hass-action]
-[![Validate with hassfest][hassfest-shield]][hassfest]
+[![Validate with hassfest][hassfest-shield]][hassfest]  
 [![GitHub Release][releases-shield]][releases]
 [![GitHub Activity][commits-shield]][commits]
 [![License][license-shield]](LICENSE)
@@ -81,6 +81,6 @@ For any issues or questions, please open an issue on the [GitHub Issue Tracker](
 [releases]: https://github.com/Lerbaek/hass-copenhagen-trackers/releases
 [user_profile]: https://github.com/Lerbaek
 [hassfest]: https://github.com/Lerbaek/hass-copenhagen-trackers/actions/workflows/hassfest.yml
-[hassfest-shield]: https://github.com/Lerbaek/hass-copenhagen-trackers/actions/workflows/hassfest.yml/badge.svg?style=for-the-badge
-[hass-action-shield]: https://github.com/Lerbaek/hass-copenhagen-trackers/actions/workflows/validate.yml/badge.svg?style=for-the-badge
+[hassfest-shield]: https://img.shields.io/github/actions/workflow/status/Lerbaek/hass-copenhagen-trackers/hassfest.yml?style=for-the-badge&label=Validate%20with%20hassfest
+[hass-action-shield]: https://img.shields.io/github/actions/workflow/status/Lerbaek/hass-copenhagen-trackers/validate.yml?style=for-the-badge&label=Validate
 [hass-action]: https://github.com/Lerbaek/hass-copenhagen-trackers/actions/workflows/validate.yml
