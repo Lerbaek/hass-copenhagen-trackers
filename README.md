@@ -1,18 +1,28 @@
 # Copenhagen Trackers Integration for Home Assistant
 
-[![HACS Action][hass-action-shield]][hass-action]
-[![Validate with hassfest][hassfest-shield]][hassfest]  
-[![GitHub Release][releases-shield]][releases]
-[![GitHub Activity][commits-shield]][commits]
-[![License][license-shield]](LICENSE)
-
-[![hacs][hacsbadge]][hacs]
-[![Project Maintenance][maintenance-shield]][user_profile]
-[![BuyMeCoffee][buymecoffeebadge]][buymecoffee]
-
-[![Community Forum][forum-shield]][forum]
+|Project|Status|Usage|Community|
+|---|---|---|---|
+|[![releases-shield]][releases]|[![hass-action-shield]][hass-action]|[![hacsbadge]][hacs]|[![buymecoffeebadge]][buymecoffee]|
+|[![maintenance-shield]][user_profile]|[![hassfest-shield]][hassfest]|[![stars-shield]][stars]|[![forum-shield]][forum]|
+|[![license-shield]](LICENSE)|[![commits-shield]][commits]|[![downloads-shield]][downloads]
+||[![Issues][issues-shield]][issues]
 
 Copenhagen Trackers custom integration for Home Assistant allows you to seamlessly integrate your Copenhagen Trackers devices with Home Assistant, providing real-time monitoring.
+
+## Disclaimers
+
+### Affiliation
+This project is an independent effort and is not affiliated, associated, authorized, endorsed by, or in any way officially connected with Copenhagen Trackers.
+
+### Device Support
+This integration has been developed with access to only the [Cobblestone] tracker.  
+While it is has been developed with support for the [Gemstone] tracker and the [Gemstone Bike][Gemstone-Bike] tracker, this has not been confirmed.  
+If you own these devices and encounter issues, please open an issue on GitHub.  
+**And hey, Copenhagen Trackers, if you're reading this, feel free to send over some samples for thorough testing!**
+
+[Cobblestone]: https://cphtrackers.com/products/cobblestone-gps-tracker
+[Gemstone]: https://cphtrackers.com/products/gemstone
+[Gemstone-Bike]: https://cphtrackers.com/products/gemstone-bike
 
 ## Features
 
@@ -68,19 +78,25 @@ For any issues or questions, please open an issue on the [GitHub Issue Tracker](
 ---
 
 [buymecoffee]: https://www.buymeacoffee.com/Lerbaek
-[buymecoffeebadge]: https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellow.svg?style=for-the-badge
-[commits-shield]: https://img.shields.io/github/commit-activity/y/Lerbaek/hass-copenhagen-trackers.svg?style=for-the-badge
+[buymecoffeebadge]: https://img.shields.io/badge/buy%20me%20a%20coffee-donate-brown.svg?style=for-the-badge&logo=buymeacoffee&logoColr
+[commits-shield]: https://img.shields.io/github/commit-activity/y/Lerbaek/hass-copenhagen-trackers.svg?style=for-the-badge&logo=git
 [commits]: https://github.com/Lerbaek/hass-copenhagen-trackers/commits/main
+[downloads-shield]: https://img.shields.io/github/downloads/lerbaek/hass-copenhagen-trackers/total?style=for-the-badge&label=Downloads
+[downloads]: https://github.com/Lerbaek/hass-copenhagen-trackers/releases
+[forum-shield]: https://img.shields.io/badge/community-forum-%2303A9F4.svg?style=for-the-badge&logo=homeassistantcommunitystore
+[forum]: https://community.home-assistant.io/
 [hacs]: https://hacs.xyz
 [hacsbadge]: https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge
-[forum-shield]: https://img.shields.io/badge/community-forum-brightgreen.svg?style=for-the-badge
-[forum]: https://community.home-assistant.io/
-[license-shield]: https://img.shields.io/github/license/Lerbaek/hass-copenhagen-trackers.svg?style=for-the-badge
-[maintenance-shield]: https://img.shields.io/badge/maintainer-%40Lerbaek-blue.svg?style=for-the-badge
-[releases-shield]: https://img.shields.io/github/release/Lerbaek/hass-copenhagen-trackers.svg?style=for-the-badge
-[releases]: https://github.com/Lerbaek/hass-copenhagen-trackers/releases
-[user_profile]: https://github.com/Lerbaek
-[hassfest]: https://github.com/Lerbaek/hass-copenhagen-trackers/actions/workflows/hassfest.yml
-[hassfest-shield]: https://img.shields.io/github/actions/workflow/status/Lerbaek/hass-copenhagen-trackers/hassfest.yml?style=for-the-badge&label=Validate%20with%20hassfest
-[hass-action-shield]: https://img.shields.io/github/actions/workflow/status/Lerbaek/hass-copenhagen-trackers/validate.yml?style=for-the-badge&label=Validate
+[hass-action-shield]: https://img.shields.io/github/actions/workflow/status/Lerbaek/hass-copenhagen-trackers/validate.yml?style=for-the-badge&label=HACS
 [hass-action]: https://github.com/Lerbaek/hass-copenhagen-trackers/actions/workflows/validate.yml
+[hassfest-shield]: https://img.shields.io/github/actions/workflow/status/Lerbaek/hass-copenhagen-trackers/hassfest.yml?style=for-the-badge&label=Hassfest
+[hassfest]: https://github.com/Lerbaek/hass-copenhagen-trackers/actions/workflows/hassfest.yml
+[issues-shield]: https://img.shields.io/github/issues/Lerbaek/hass-copenhagen-trackers?style=for-the-badge
+[issues]: https://github.com/Lerbaek/hass-copenhagen-trackers/issues
+[license-shield]: https://img.shields.io/github/license/Lerbaek/hass-copenhagen-trackers.svg?style=for-the-badge
+[maintenance-shield]: https://img.shields.io/badge/maintainer-%40Lerbaek-blue.svg?style=for-the-badge&logo=github
+[releases-shield]: https://img.shields.io/github/release/Lerbaek/hass-copenhagen-trackers.svg?style=for-the-badge&logo=semver
+[releases]: https://github.com/Lerbaek/hass-copenhagen-trackers/releases
+[stars-shield]: https://img.shields.io/github/stars/Lerbaek/hass-copenhagen-trackers?style=for-the-badge&logo=apachespark&logoColor=yellow
+[stars]: https://github.com/Lerbaek/hass-copenhagen-trackers/stargazers
+[user_profile]: https://github.com/Lerbaek
