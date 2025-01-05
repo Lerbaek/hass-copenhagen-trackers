@@ -41,6 +41,10 @@ If you own these devices and encounter issues, please open an issue on GitHub.
 4. Add the repository URL: `https://github.com/Lerbaek/hass-copenhagen-trackers` and select the category "Integration".
 5. Find "Copenhagen Trackers" in the list and click "Install".
 
+... or, just click this button:
+
+[![HACS Repository](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=Lerbaek&repository=hass-copenhagen-trackers&category=integration)
+
 ### Manual Installation
 
 1. Download the `custom_components` folder from this repository.
