@@ -21,7 +21,6 @@ from .entity import CopenhagenTrackersEntity
 # API response keys
 ATTR_BATTERY_PERCENTAGE = "battery_percentage"
 ATTR_DESCRIPTION = "description"
-ATTR_DEVICE_INFO = "device_info"
 ATTR_NAME = "name"
 ATTR_PROFILE = "profile"
 ATTR_SIGNAL_STRENGTH = "sig_strength"
@@ -103,7 +102,7 @@ class SignalStrengthSensor(CopenhagenTrackersEntity, SensorEntity):
     @property
     def native_value(self) -> int | None:
         """Return the state of the sensor."""
-        return int(self.get_location().get(ATTR_DEVICE_INFO, {}).get(ATTR_SIGNAL_STRENGTH))
+        return self.get_location_details(ATTR_SIGNAL_STRENGTH)
 
 class ProfileNameSensor(CopenhagenTrackersEntity, SensorEntity):
     """Sensor for device profile name."""
