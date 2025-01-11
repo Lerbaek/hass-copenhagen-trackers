@@ -46,27 +46,31 @@ class DeviceTracker(CopenhagenTrackersEntity, TrackerEntity):
         """Return the source type of the device."""
         return SourceType.GPS
     
-    def get_location_details(self, key: str) -> float:
+    def get_location_details(self, key: str) -> float | None:
         """Get a location detail"""
-        return float(self.get_location().get(ATTR_DETAILS, {}).get(key))
+        if location := self.get_location():
+            if details := location.get(ATTR_DETAILS):
+                if value := details.get(key):
+                    return float(value)
+        return None
 
     @property
-    def latitude(self) -> float:
+    def latitude(self) -> float | None:
         """Return latitude value of the device."""
         return self.get_location_details(ATTR_LATITUDE)
 
     @property
-    def longitude(self) -> float:
+    def longitude(self) -> float | None:
         """Return longitude value of the device."""
         return self.get_location_details(ATTR_LONGITUDE)
 
     @property
-    def location_accuracy(self) -> float:
+    def location_accuracy(self) -> float | None:
         """Return the location accuracy of the device."""
         return self.get_location_details(ATTR_ACCURACY) * 10
 
     @property
-    def location_name(self) -> str:
+    def location_name(self) -> str | None:
         """Return the location name."""
         location = self.get_location()
         location_parts = [
