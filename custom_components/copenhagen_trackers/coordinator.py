@@ -38,6 +38,7 @@ class CopenhagenTrackersDataUpdateCoordinator(DataUpdateCoordinator):
         try:
             data = await self.api.async_get_devices_with_auth()
             self._last_sync_time = datetime.now(timezone.utc)
+            self.logger.debug("Data fetched: %s", data)
             return data
         except Exception as exception:
             raise UpdateFailed(exception) from exception
