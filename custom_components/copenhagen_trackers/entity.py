@@ -57,9 +57,12 @@ class CopenhagenTrackersEntity(CoordinatorEntity):
             "sw_version": self.device_data[self.FIRMWARE_VERSION],
         }
 
-    def get_location(self) -> dict:
+    def get_location(self) -> dict | None:
         """Get a location detail"""
-        return self.device_data.get(self.LOCATION, {})
+        if device_data := self.device_data:
+            if location := device_data.get(self.LOCATION):
+                return location
+        return None
         
     @property
     @abstractmethod

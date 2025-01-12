@@ -13,6 +13,7 @@ from .entity import CopenhagenTrackersEntity
 ATTR_ACCURACY = "acc"
 ATTR_CITY = "city"
 ATTR_COUNTRY = "country"
+ATTR_DETAILS = "details"
 ATTR_LATITUDE = "lat"
 ATTR_LONGITUDE = "lon"
 ATTR_ROAD = "road"
@@ -39,6 +40,14 @@ class DeviceTracker(CopenhagenTrackersEntity, TrackerEntity):
     _attr_entity_category = None
     _attr_translation_key = TRANSLATION_KEY_LOCATION
     SUFFIX = SUFFIX_LOCATION
+    
+    def get_location_details(self, key: str) -> float | None:
+        """Get a location detail"""
+        if location := self.get_location():
+            if details := location.get(ATTR_DETAILS):
+                if value := details.get(key):
+                    return float(value)
+        return None
 
     @property
     def source_type(self):
