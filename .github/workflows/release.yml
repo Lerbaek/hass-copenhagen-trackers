@@ -26,7 +26,7 @@ jobs:
           git config user.email github-actions@github.com
           git add ./custom_components/copenhagen_trackers/manifest.json
           git commit -m "Updated manifest.json"
-          git push origin HEAD:master
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/Lerbaek/hass-copenhagen-trackers.git HEAD:master
       - name: Create zip
         run: |
           cd custom_components/copenhagen_trackers
