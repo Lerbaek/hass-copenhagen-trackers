@@ -63,7 +63,7 @@ Once configured, your Copenhagen Trackers devices will be available in Home Assi
 
 ## Contributing
 
-Contributions are welcome! Please open an issue or submit a pull request on [GitHub](https://github.com/Lerbaek/hass-copenhagen-trackers).
+Contributions and feature requests are welcome! Please open an issue or submit a pull request on [GitHub](https://github.com/Lerbaek/hass-copenhagen-trackers).
 
 ## License
 
