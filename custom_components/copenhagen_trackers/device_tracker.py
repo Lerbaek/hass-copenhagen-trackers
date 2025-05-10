@@ -45,8 +45,11 @@ class DeviceTracker(CopenhagenTrackersEntity, TrackerEntity):
         """Get a location detail"""
         if location := self.get_location():
             if details := location.get(ATTR_DETAILS):
-                if value := details.get(key):
-                    return float(value)
+                if key in details:
+                    try:
+                        return float(details[key])
+                    except (TypeError, ValueError):
+                        pass
         return None
 
     @property
