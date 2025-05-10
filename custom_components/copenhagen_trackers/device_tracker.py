@@ -70,7 +70,8 @@ class DeviceTracker(CopenhagenTrackersEntity, TrackerEntity):
     @property
     def location_accuracy(self) -> float | None:
         """Return the location accuracy of the device."""
-        return self.get_location_details(ATTR_ACCURACY) * 10
+        accuracy = self.get_location_details(ATTR_ACCURACY)
+        return accuracy * 10 if accuracy else 20
 
     @property
     def location_name(self) -> str | None:
