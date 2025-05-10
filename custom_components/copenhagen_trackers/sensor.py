@@ -24,7 +24,6 @@ ATTR_DESCRIPTION = "description"
 ATTR_DEVICE_INFO = "device_info"
 ATTR_NAME = "name"
 ATTR_PROFILE = "profile"
-ATTR_SIGNAL_STRENGTH = "sig_strength"
 ATTR_UPDATED_AT = "updated_at"
 
 # Entity IDs
@@ -32,13 +31,15 @@ SUFFIX_BATTERY_PERCENTAGE = ATTR_BATTERY_PERCENTAGE
 SUFFIX_LAST_SEEN_AT = "last_seen_at"
 SUFFIX_PROFILE = ATTR_PROFILE
 SUFFIX_SERVER_SYNC_AT = "server_sync_at"
-SUFFIX_SIGNAL_STRENGTH = "signal_strength"
+SUFFIX_CELLULAR_SIGNAL = "cellular_signal"
+SUFFIX_GPS_SIGNAL = "gps_signal"
 
 TRANSLATION_KEY_BATTERY_PERCENTAGE = ATTR_BATTERY_PERCENTAGE
 TRANSLATION_KEY_LAST_SEEN_AT = SUFFIX_LAST_SEEN_AT
 TRANSLATION_KEY_PROFILE = ATTR_PROFILE
 TRANSLATION_KEY_SERVER_SYNC_AT = SUFFIX_SERVER_SYNC_AT
-TRANSLATION_KEY_SIGNAL_STRENGTH = SUFFIX_SIGNAL_STRENGTH
+TRANSLATION_KEY_CELLULAR_SIGNAL = SUFFIX_CELLULAR_SIGNAL
+TRANSLATION_KEY_GPS_SIGNAL = SUFFIX_GPS_SIGNAL
 
 async def async_setup_entry(hass, entry, async_add_entities):
     """Set up Copenhagen Trackers sensors based on a config entry."""
@@ -50,8 +51,9 @@ async def async_setup_entry(hass, entry, async_add_entities):
             ServerSyncAtSensor(coordinator, device[ATTR_ID]),
             LastSeenAtSensor(coordinator, device[ATTR_ID]),
             BatteryPercentageSensor(coordinator, device[ATTR_ID]),
-            SignalStrengthSensor(coordinator, device[ATTR_ID]),
-            ProfileNameSensor(coordinator, device[ATTR_ID]),
+            CellularSignalSensor(coordinator, device[ATTR_ID]),
+            GPSSignalSensor(coordinator, device[ATTR_ID]),
+            ProfileNameSensor(coordinator, device[ATTR_ID])
         ))
     
     async_add_entities(entities)
@@ -88,26 +90,81 @@ class BatteryPercentageSensor(CopenhagenTrackersEntity, SensorEntity):
         """Return the state of the sensor."""
         return self.device_data.get(ATTR_BATTERY_PERCENTAGE)
 
-class SignalStrengthSensor(CopenhagenTrackersEntity, SensorEntity):
-    """Sensor for device signal strength."""
+class CellularSignalSensor(CopenhagenTrackersEntity, SensorEntity):
+    """Sensor for device cellular signal strength."""
 
     _attr_device_class = SensorDeviceClass.SIGNAL_STRENGTH
-    _attr_native_unit_of_measurement = None
+    _attr_native_unit_of_measurement = "dBm"
     _attr_state_class = SensorStateClass.MEASUREMENT
     _attr_entity_category = EntityCategory.DIAGNOSTIC
-    _attr_icon = "mdi:signal"
+    _attr_icon = "mdi:signal-cellular"
     _attr_native_precision = 0
-    _attr_translation_key = TRANSLATION_KEY_SIGNAL_STRENGTH
-    SUFFIX = SUFFIX_SIGNAL_STRENGTH
+    _attr_translation_key = TRANSLATION_KEY_CELLULAR_SIGNAL
+    SUFFIX = SUFFIX_CELLULAR_SIGNAL
+
+    @staticmethod
+    def _convert_to_dbm(value: int | str) -> int:
+        """Convert signal value to dBm."""
+        return -113 + (2 * int(value))
 
     @property
     def native_value(self) -> int | None:
-        """Return the state of the sensor."""
-        if location := self.get_location():
-            if device_info := location.get(ATTR_DEVICE_INFO):
-                if signal_strength := device_info.get(ATTR_SIGNAL_STRENGTH):
-                    return int(signal_strength)
+        """Return the cellular signal strength."""
+        location = self.get_location()
+        if not location or not location.get(ATTR_DEVICE_INFO):
+            return None
+            
+        device_info = location[ATTR_DEVICE_INFO]
+        # For Cobblestone devices
+        if sig_strength := device_info.get("sig_strength"):
+            return self._convert_to_dbm(sig_strength)
+        # For Gemstone devices
+        if trans := device_info.get("trans"):
+            return self._convert_to_dbm(trans)
         return None
+
+class GPSSignalSensor(CopenhagenTrackersEntity, SensorEntity):
+    """Sensor for GPS signal quality."""
+
+    _attr_device_class = None
+    _attr_native_unit_of_measurement = "bars"
+    _attr_state_class = SensorStateClass.MEASUREMENT
+    _attr_entity_category = EntityCategory.DIAGNOSTIC
+    _attr_icon = "mdi:satellite-variant"
+    _attr_translation_key = TRANSLATION_KEY_GPS_SIGNAL
+    SUFFIX = SUFFIX_GPS_SIGNAL
+    _attr_native_max_value = 4
+    _attr_native_min_value = 0
+    _attr_native_step = 1
+
+    @property
+    def native_value(self) -> int | None:
+        """Return the GPS signal quality (0-4)."""
+        location = self.get_location()
+        if not location:
+            return None
+        return location.get("signal")
+
+    @property
+    def extra_state_attributes(self) -> dict | None:
+        """Return the GPS signal quality attributes."""
+        location = self.get_location()
+        if not location or not location.get(ATTR_DEVICE_INFO):
+            return None
+            
+        device_info = location[ATTR_DEVICE_INFO]
+        attributes = {}
+        
+        # For Gemstone
+        if ttf := device_info.get("ttf"):
+            attributes["time_to_fix"] = int(ttf)
+        # For Cobblestone
+        if fixt := device_info.get("fixt"):
+            attributes["fix_time"] = int(fixt)
+        if num_sats := device_info.get("num_sats"):
+            attributes["satellites"] = int(num_sats)
+            
+        return attributes if attributes else None
 
 class ProfileNameSensor(CopenhagenTrackersEntity, SensorEntity):
     """Sensor for device profile name."""
