@@ -97,7 +97,6 @@ class CellularSignalSensor(CopenhagenTrackersEntity, SensorEntity):
     _attr_native_unit_of_measurement = "dBm"
     _attr_state_class = SensorStateClass.MEASUREMENT
     _attr_entity_category = EntityCategory.DIAGNOSTIC
-    _attr_icon = "mdi:signal-cellular"
     _attr_native_precision = 0
     _attr_translation_key = TRANSLATION_KEY_CELLULAR_SIGNAL
     SUFFIX = SUFFIX_CELLULAR_SIGNAL
@@ -122,6 +121,21 @@ class CellularSignalSensor(CopenhagenTrackersEntity, SensorEntity):
         if trans := device_info.get("trans"):
             return self._convert_to_dbm(trans)
         return None
+
+    @property
+    def icon(self) -> str:
+        """Return an icon representing the cellular signal strength."""
+        value = self.native_value
+        if value is None:
+            return "mdi:signal-cellular-outline"
+        if value >= -70:
+            return "mdi:signal-cellular-3"
+        elif value >= -85:
+            return "mdi:signal-cellular-2"
+        elif value >= -100:
+            return "mdi:signal-cellular-1"
+        else:
+            return "mdi:signal-cellular-outline"
 
 class GPSSignalSensor(CopenhagenTrackersEntity, SensorEntity):
     """Sensor for GPS signal quality."""
