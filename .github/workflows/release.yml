@@ -21,6 +21,7 @@ jobs:
           python3 ${{ github.workspace }}/.github/scripts/update_hacs_manifest.py --version ${{ github.event.release.tag_name }} --path /custom_components/copenhagen_trackers/
 
       - name: Commit manifest update
+        continue-on-error: true
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
