@@ -44,15 +44,23 @@
       "cellular_signal": {
         "name": "Mobilsignal",
         "state_attributes": {
-          "signal_strength": "Signalstyrke"
+          "signal_strength": {
+            "name": "Signalstyrke"
+          }
         }
       },
       "gps_signal": {
         "name": "GPS-signal",
         "state_attributes": {
-          "time_to_fix": "Tid til Fix",
-          "fix_time": "Fix-tid",
-          "satellites": "Antal Satellitter"
+          "time_to_fix": {
+            "name": "Tid til Fix"
+          },
+          "fix_time": {
+            "name": "Fix-tid"
+          },
+          "satellites": {
+            "name": "Antal Satellitter"
+          }
         }
       }
     },
