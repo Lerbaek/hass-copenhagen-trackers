@@ -19,7 +19,7 @@ class CopenhagenTrackersEntity(CoordinatorEntity):
 
     DEVICE_TYPE_MAP = {
         1: "Cobblestone",
-        2: "Gemstone"
+        5: "Gemstone"
     }
 
     # API response keys

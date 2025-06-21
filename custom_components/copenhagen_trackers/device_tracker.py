@@ -45,8 +45,11 @@ class DeviceTracker(CopenhagenTrackersEntity, TrackerEntity):
         """Get a location detail"""
         if location := self.get_location():
             if details := location.get(ATTR_DETAILS):
-                if value := details.get(key):
-                    return float(value)
+                if key in details:
+                    try:
+                        return float(details[key])
+                    except (TypeError, ValueError):
+                        pass
         return None
 
     @property
@@ -67,7 +70,8 @@ class DeviceTracker(CopenhagenTrackersEntity, TrackerEntity):
     @property
     def location_accuracy(self) -> float | None:
         """Return the location accuracy of the device."""
-        return self.get_location_details(ATTR_ACCURACY) * 10
+        accuracy = self.get_location_details(ATTR_ACCURACY)
+        return accuracy * 10 if accuracy else 20
 
     @property
     def location_name(self) -> str | None:

@@ -41,8 +41,27 @@
       "server_sync_at": {
         "name": "Server Sync"
       },
-      "signal_strength": {
-        "name": "Signal Strength"
+      "cellular_signal": {
+        "name": "Cellular Signal",
+        "state_attributes": {
+          "signal_strength": {
+            "name": "Signal Strength"
+          }
+        }
+      },
+      "gps_signal": {
+        "name": "GPS Signal",
+        "state_attributes": {
+          "time_to_fix": {
+            "name": "Time to Fix"
+          },
+          "fix_time": {
+            "name": "Fix Time"
+          },
+          "satellites": {
+            "name": "Number of Satellites"
+          }
+        }
       }
     },
     "switch": {
