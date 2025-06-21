@@ -126,16 +126,15 @@ class CellularSignalSensor(CopenhagenTrackersEntity, SensorEntity):
     def icon(self) -> str:
         """Return an icon representing the cellular signal strength."""
         value = self.native_value
-        if value is None:
-            return "mdi:signal-cellular-outline"
         if value >= -70:
             return "mdi:signal-cellular-3"
-        elif value >= -85:
+        if value >= -80:
             return "mdi:signal-cellular-2"
-        elif value >= -100:
+        if value >= -90:
             return "mdi:signal-cellular-1"
-        else:
+        if value >= -100:
             return "mdi:signal-cellular-outline"
+        return "mdi:sim-off"
 
 class GPSSignalSensor(CopenhagenTrackersEntity, SensorEntity):
     """Sensor for GPS signal quality."""
@@ -144,7 +143,6 @@ class GPSSignalSensor(CopenhagenTrackersEntity, SensorEntity):
     _attr_native_unit_of_measurement = "bars"
     _attr_state_class = SensorStateClass.MEASUREMENT
     _attr_entity_category = EntityCategory.DIAGNOSTIC
-    _attr_icon = "mdi:satellite-variant"
     _attr_translation_key = TRANSLATION_KEY_GPS_SIGNAL
     SUFFIX = SUFFIX_GPS_SIGNAL
     _attr_native_max_value = 4
@@ -179,6 +177,20 @@ class GPSSignalSensor(CopenhagenTrackersEntity, SensorEntity):
             attributes["satellites"] = int(num_sats)
             
         return attributes if attributes else None
+
+    @property
+    def icon(self) -> str:
+        """Return an icon representing the GPS signal quality (bars)."""
+        value = self.native_value
+        if value >= 4:
+            return "mdi:signal-cellular-3"
+        if value == 3:
+            return "mdi:signal-cellular-2"
+        if value == 2:
+            return "mdi:signal-cellular-1"
+        if value == 1:
+            return "mdi:signal-cellular-outline"
+        return "mdi:crosshairs-off"
 
 class ProfileNameSensor(CopenhagenTrackersEntity, SensorEntity):
     """Sensor for device profile name."""
