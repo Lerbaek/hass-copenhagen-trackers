@@ -51,10 +51,14 @@ async def async_setup_entry(hass, entry, async_add_entities):
             ServerSyncAtSensor(coordinator, device[ATTR_ID]),
             LastSeenAtSensor(coordinator, device[ATTR_ID]),
             BatteryPercentageSensor(coordinator, device[ATTR_ID]),
-            CellularSignalSensor(coordinator, device[ATTR_ID]),
             GPSSignalSensor(coordinator, device[ATTR_ID]),
             ProfileNameSensor(coordinator, device[ATTR_ID])
         ))
+        # Only add cellular signal sensor if the API provided cellular info
+        location = device.get("location") or {}
+        device_info = location.get("device_info") or {}
+        if device_info.get("sig_strength") or device_info.get("trans"):
+            entities.append(CellularSignalSensor(coordinator, device[ATTR_ID]))
     
     async_add_entities(entities)
 
