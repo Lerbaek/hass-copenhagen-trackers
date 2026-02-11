@@ -144,7 +144,7 @@ class CellularSignalSensor(CopenhagenTrackersEntity, SensorEntity):
         if value >= -90:
             return "mdi:signal-cellular-1"
         
-        return "mdi:sim-off"
+        return "mdi:signal-cellular-outline"
 
 class GPSSignalSensor(CopenhagenTrackersEntity, SensorEntity):
     """Sensor for GPS signal quality."""
