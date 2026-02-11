@@ -1,0 +1,23 @@
+name: Mark stale issues and pull requests
+
+on:
+  schedule:
+  - cron: '0 19 * * *'
+  workflow_dispatch:
+
+jobs:
+  stale:
+
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+
+    steps:
+    - uses: actions/stale@v10
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        days-before-stale: 14
+        days-before-close: -1
+        stale-issue-message: 'This issue is stale because it has been open 14 days with no activity. This message serves as a reminder, and does not mean that the issue will be automatically closed.'
+        stale-pr-message: 'This PR is stale because it has been open 14 days with no activity. This message serves as a reminder, and does not mean that the issue will be automatically closed.s'
